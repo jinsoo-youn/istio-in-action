@@ -1,0 +1,20 @@
+# 1 control-plane + 2 worker 노드 예시
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  extraPortMappings:
+  # mac → K8s LoadBalancer NodePort 편리 접근
+  - containerPort: 30080   # HTTP
+    hostPort: 80
+    protocol: TCP
+  - containerPort: 30443   # HTTPS / TLS
+    hostPort: 443
+    protocol: TCP
+  kubeadmConfigPatches:
+  - |
+    kind: ClusterConfiguration
+    apiServer:
+      extraArgs:
+        # istio가 필요로 하는 Webhook 시간 설정 여유
+        default-not-ready-toleration-seconds: "30"
