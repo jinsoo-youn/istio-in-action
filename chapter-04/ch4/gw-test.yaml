@@ -1,0 +1,14 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: test-9123-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 9123
+      name: http-9123
+      protocol: HTTP
+    hosts:
+    - "9123-test.io"
